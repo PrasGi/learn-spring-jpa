@@ -110,21 +110,19 @@ public class ProductRepositoryTest {
 
     @Test
     void testDelete() {
-        transactional.executeWithoutResult(transactionStatus -> {
-            Category category = categoryRepository.findById(1L).orElse(null);
-            assertNotNull(category);
+        Category category = categoryRepository.findById(1L).orElse(null);
+        assertNotNull(category);
 
-            Product product = new Product();
-            product.setName("testDelete");
-            product.setPrice(35000L);
-            product.setCategory(category);
-            productRepository.save(product);
+        Product product = new Product();
+        product.setName("testDelete");
+        product.setPrice(35000L);
+        product.setCategory(category);
+        productRepository.save(product);
 
-            int delete = productRepository.deleteByName("testDelete");
-            assertEquals(1, delete);
+        int delete = productRepository.deleteByName("testDelete");
+        assertEquals(1, delete);
 
-            delete = productRepository.deleteByName("testDelete");
-            assertEquals(0, delete);
-        });
+        delete = productRepository.deleteByName("testDelete");
+        assertEquals(0, delete);
     }
 }

@@ -9,12 +9,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import core.entity.Product;
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Long countByCategory_name(String name);
-
     boolean existsByName(String name);
+    @Transactional
     Integer deleteByName(String name);
     List<Product> findAllByCategory_name(String name);
     List<Product> findAllByCategory_name(String name, Sort sort);
