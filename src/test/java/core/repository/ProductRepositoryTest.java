@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 
 import core.entity.Category;
 import core.entity.Product;
@@ -27,8 +28,8 @@ public class ProductRepositoryTest {
 
         {
             Product product = new Product();
-            product.setName("laptop");
-            product.setPrice(10000000L);
+            product.setName("ipad");
+            product.setPrice(20000000L);
             product.setCategory(category);
 
             productRepository.save(product);
@@ -38,8 +39,8 @@ public class ProductRepositoryTest {
 
         {
             Product product = new Product();
-            product.setName("mouse");
-            product.setPrice(100000L);
+            product.setName("macbook");
+            product.setPrice(300000L);
             product.setCategory(category);
 
             productRepository.save(product);
@@ -53,5 +54,14 @@ public class ProductRepositoryTest {
         List<Product> products = productRepository.findAllByCategory_name("gadget");
         Assertions.assertNotNull(products);
         Assertions.assertEquals(products.get(0).getCategory().getName(), "gadget");
+    }
+
+    @Test
+    void findProductSort() {
+        Sort sort = Sort.by(Sort.Order.desc("id"));
+        List<Product> products = productRepository.findAllByCategory_name("gadget", sort);
+        Assertions.assertNotNull(products);
+        Assertions.assertEquals("macbook", products.get(0).getName());
+        Assertions.assertEquals("ipad", products.get(1).getName());
     }
 }
